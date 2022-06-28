@@ -1,12 +1,12 @@
 package dev.ted.towarddomain.usecase;
 
-import dev.ted.towarddomain.repository.ProductCatalog;
 import dev.ted.towarddomain.domain.Category;
 import dev.ted.towarddomain.domain.Order;
 import dev.ted.towarddomain.domain.OrderStatus;
 import dev.ted.towarddomain.domain.Product;
 import dev.ted.towarddomain.doubles.InMemoryProductCatalog;
 import dev.ted.towarddomain.doubles.TestOrderRepository;
+import dev.ted.towarddomain.repository.ProductCatalog;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -16,33 +16,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 public class OrderCreationUseCaseTest {
-    private final TestOrderRepository orderRepository = new TestOrderRepository();
-    private Category food = new Category() {{
-        setName("food");
-        setTaxPercentage(new BigDecimal("10"));
-    }};
-    private final ProductCatalog productCatalog;
-    {
-        List<Product> products = new ArrayList<>();
-        products.add(new Product() {{
-            setName("salad");
-            setPrice(new BigDecimal("3.56"));
-            setCategory(food);
-        }});
-        products.add(new Product() {{
-            setName("tomato");
-            setPrice(new BigDecimal("4.65"));
-            setCategory(food);
-        }});
-        productCatalog = new InMemoryProductCatalog(
-                products
-        );
-    }
-
-    private final OrderCreationUseCase useCase = new OrderCreationUseCase(orderRepository, productCatalog);
 
     @Test
     public void sellMultipleItems() throws Exception {
+        TestOrderRepository orderRepository = new TestOrderRepository();
+        ProductCatalog productCatalog = createProductCatalogWithSaladAndTomato();
+        OrderCreationUseCase useCase = new OrderCreationUseCase(orderRepository, productCatalog);
+
         SellItemRequest saladRequest = new SellItemRequest();
         saladRequest.setProductName("salad");
         saladRequest.setQuantity(2);
@@ -91,8 +71,33 @@ public class OrderCreationUseCaseTest {
             .isEqualByComparingTo(new BigDecimal("1.41"));
     }
 
+    private ProductCatalog createProductCatalogWithSaladAndTomato() {
+        Category food = new Category();
+        food.setName("food");
+        food.setTaxPercentage(new BigDecimal("10"));
+
+        List<Product> products = new ArrayList<>();
+        Product salad = new Product();
+        salad.setName("salad");
+        salad.setPrice(new BigDecimal("3.56"));
+        salad.setCategory(food);
+        products.add(salad);
+
+        Product tomato = new Product();
+        tomato.setName("tomato");
+        tomato.setPrice(new BigDecimal("4.65"));
+        tomato.setCategory(food);
+        products.add(tomato);
+
+        return new InMemoryProductCatalog(products);
+    }
+
     @Test
     public void unknownProduct() throws Exception {
+        TestOrderRepository orderRepository = new TestOrderRepository();
+        ProductCatalog productCatalog = createProductCatalogWithSaladAndTomato();
+        OrderCreationUseCase useCase = new OrderCreationUseCase(orderRepository, productCatalog);
+
         SellItemsRequest request = new SellItemsRequest();
         request.setRequests(new ArrayList<>());
         SellItemRequest unknownProductRequest = new SellItemRequest();
