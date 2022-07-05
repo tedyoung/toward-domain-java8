@@ -8,9 +8,11 @@
     <artifactId>toward-domain</artifactId>
     <version>1.0.1</version>
 
+    <name>toward-domain-java8-junit5</name>
+
     <properties>
         <java.version>8</java.version>
-        <junit.version>4.13.2</junit.version>
+        <junit.version>5.8.2</junit.version>
         <assertj.version>3.23.1</assertj.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -26,18 +28,29 @@
             <version>1.5.0</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>${assertj.version}</version>
+            <version>3.23.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

@@ -7,7 +7,7 @@ import dev.ted.towarddomain.domain.Product;
 import dev.ted.towarddomain.doubles.InMemoryProductCatalog;
 import dev.ted.towarddomain.doubles.TestOrderRepository;
 import dev.ted.towarddomain.repository.ProductCatalog;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package dev.ted.towarddomain.usecase;
 import dev.ted.towarddomain.domain.Order;
 import dev.ted.towarddomain.domain.OrderStatus;
 import dev.ted.towarddomain.doubles.TestOrderRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
